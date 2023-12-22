@@ -13,18 +13,28 @@ body {
 }
 
 h1 {
-  font-size: 40px;
-  margin-bottom: 3%;
+  font-size: 4rem;
   background-image: linear-gradient(to right, #7ed56f, #b2fca5);
   background-clip: text;
   -webkit-background-clip: text; /* Webkit tarayıcıları için gerekli */
   color: transparent;
 }
 
+select {
+  border-radius: 10px;
+  transition: all 0.3s;
+  border: none;
+}
+
+select:active,
+select:focus {
+  outline: none;
+}
+
 .app-container {
   width: 100%;
   height: 100dvh;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,15 +44,19 @@ h1 {
     12.1px 19px 11.9px -3px rgba(0, 0, 0, 0.056),
     24.8px 39.1px 24.5px -3px rgba(0, 0, 0, 0.069),
     68px 107px 67px -3px rgba(0, 0, 0, 0.1);
-  background-color: rgba(14, 151, 89, 0.75);
+  background-color: rgb(14, 151, 89);
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+.app__text {
+  margin: 3rem 0;
 }
 
 .form-container {
   display: flex;
   justify-content: space-evenly;
-  padding-top: 2%;
+  margin-bottom: 2rem;
 }
 
 .input-field {
@@ -53,7 +67,7 @@ h1 {
   margin-right: 2%;
   font-size: 20px;
   transition: 0.3s;
-  box-shadow: 4px 8px 5px rgba(0, 0, 0, 0.27);
+  box-shadow: 2px 4px 25px rgba(0, 0, 0, 0.27);
 }
 
 .input-field:focus {
@@ -86,7 +100,6 @@ h1 {
   width: 100%;
   display: flex;
   background-color: #55c57a;
-  margin: 3% 0;
   box-shadow: 0px 6px 17px rgba(0, 0, 0, 0.27);
 }
 
@@ -98,6 +111,7 @@ h1 {
   align-items: center;
   text-align: center;
   justify-content: space-evenly;
+  border-right: 2px solid #10101091;
 }
 /* 
 .infos {
@@ -137,6 +151,7 @@ h1 {
 .day-container {
   align-self: start;
   margin-left: 5rem;
+  margin-top: 4rem;
   display: flex;
   flex-direction: column;
   align-items: center;

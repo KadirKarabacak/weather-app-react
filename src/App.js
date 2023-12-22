@@ -3,12 +3,23 @@ import "./index.css";
 
 const KEY = "b85ba958f57100940d2bf7395ad5ad45";
 
+const options = [
+  "Istanbul",
+  "Ankara",
+  "İzmir",
+  "Antalya",
+  "Bursa",
+  "Denizli",
+  "Konya",
+];
+
 export default function App() {
   const [position, setPosition] = useState({});
   const [weatherData, setWeatherData] = useState({});
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [select, setSelect] = useState("");
 
   // Get "Location" data
   useEffect(function () {
@@ -72,12 +83,12 @@ export default function App() {
           if (!inputValue) return;
           setIsLoading(true);
 
+          // Kondisyonel olarak inputa yada selecte göre bilgi getir.
           const res = await fetch(
             `https://api.openweathermap.org/data/2.5/weather?q=${inputValue}&appid=${KEY}`,
             { signal: controller.signal }
           );
           const data = await res.json();
-          console.log(data);
           setWeatherData(data);
           setIsLoading(false);
         } catch (err) {
@@ -99,8 +110,13 @@ export default function App() {
   return (
     <div className="app-container">
       <Date />
-      <Header error={error} />
-      <Form inputValue={inputValue} setInputValue={setInputValue} />
+      <Header isLoading={isLoading} error={error} />
+      <Form
+        select={select}
+        setSelect={setSelect}
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+      />
       <WeatherContainer isLoading={isLoading} weatherData={weatherData} />
     </div>
   );
@@ -114,19 +130,21 @@ function Header({ error }) {
   );
 }
 
-function Form({ inputValue, setInputValue }) {
+function Form({ inputValue, setInputValue, select, setSelect }) {
   return (
-    <form className="form-container">
+    <form onSubmit={(e) => e.preventDefault()} className="form-container">
       <input
         type="text"
         className="input-field"
-        placeholder="Search for a city..."
+        placeholder="Search for a city"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
       />
-      <button type="submit" className="submit-button">
-        Search
-      </button>
+      <select value={select} onChange={(e) => setSelect(e.target.value)}>
+        {options.map((option) => {
+          return <option value={option}>{option}</option>;
+        })}
+      </select>
     </form>
   );
 }
@@ -145,9 +163,12 @@ function WeatherContainer({ weatherData, isLoading }) {
       ? Math.round(weatherData?.main?.temp - 273.15) + "°C"
       : "",
 
-    weatherData?.weather?.at(0)?.description,
+    weatherData?.weather?.at(0)?.description
+      ? weatherData.weather.at(0).description.slice(0, 1).toUpperCase() +
+        weatherData.weather.at(0).description.slice(1)
+      : "",
 
-    weatherData?.main?.humidity,
+    weatherData?.main?.humidity ? weatherData?.main?.humidity + " %" : "",
   ];
   return (
     <div className="weather-container">
@@ -178,20 +199,12 @@ function WeatherInfo({ children }) {
 }
 
 function Date() {
-  // const [date, setDate] = useState("");
-
-  // const now = new Date();
-  // const hour = now.getHours();
-  // const minute = now.getMinutes();
-  // const seconds = now.getSeconds();
-  // const year = now.getFullYear();
-  // const month = `${now.getMonth() + 1}`.padStart(2, 0);
-  // const day = `${now.getDate()}`.padStart(2, 0);
+  // const [currentDate, setCurrentDate] = useState(new Date());
 
   return (
     <div className="day-container">
       <div className="date-container">
-        <div className="date day">2023/12/23</div>
+        <div className="date day"></div>
       </div>
       <div className="clock-container">
         <div className="clock time">22:55:46</div>
