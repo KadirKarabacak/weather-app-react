@@ -1,13 +1,280 @@
-body {
+@import url("https://fonts.googleapis.com/css2?family=Exo+2&display=swap");
+
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  font-family: "Exo 2", sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 40px;
+  margin-bottom: 3%;
+  background-image: linear-gradient(to right, #7ed56f, #b2fca5);
+  background-clip: text;
+  -webkit-background-clip: text; /* Webkit tarayıcıları için gerekli */
+  color: transparent;
+}
+
+.app-container {
+  width: 100%;
+  height: 100dvh;
+  justify-content: space-evenly;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  box-shadow: 2.3px 3.7px 2.3px -3px rgba(0, 0, 0, 0.031),
+    5.9px 9.3px 5.8px -3px rgba(0, 0, 0, 0.044),
+    12.1px 19px 11.9px -3px rgba(0, 0, 0, 0.056),
+    24.8px 39.1px 24.5px -3px rgba(0, 0, 0, 0.069),
+    68px 107px 67px -3px rgba(0, 0, 0, 0.1);
+  background-color: rgba(14, 151, 89, 0.75);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.form-container {
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 2%;
+}
+
+.input-field {
+  padding: 15px;
+  width: 70%;
+  border-radius: 10px;
+  border: 1px solid rgb(253, 253, 253);
+  margin-right: 2%;
+  font-size: 20px;
+  transition: 0.3s;
+  box-shadow: 4px 8px 5px rgba(0, 0, 0, 0.27);
+}
+
+.input-field:focus {
+  outline: none;
+  box-shadow: 5px 8px 14px rgba(0, 0, 0, 0.27);
+}
+
+.submit-button {
+  padding: 10px 15px;
+  width: 30%;
+  background-color: #52ff4c;
+  color: #101010;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: 0.3s;
+  font-size: 20px;
+  box-shadow: 0px 6px 17px rgba(0, 0, 0, 0.27);
+}
+
+.submit-button:hover {
+  background-color: #101010;
+  color: white;
+}
+
+.weather-container {
+  justify-content: space-between;
+  align-items: center;
+  height: 8rem;
+  width: 100%;
+  display: flex;
+  background-color: #55c57a;
+  margin: 3% 0;
+  box-shadow: 0px 6px 17px rgba(0, 0, 0, 0.27);
+}
+
+.weathers {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: space-evenly;
+}
+/* 
+.infos {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 4% 0%;
+  font-size: 25px;
+  color: white;
+} */
+
+.headers {
+  display: flex;
+  height: 50%;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #000000;
+  font-weight: bold;
+  padding-bottom: 6%;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+.weather-data {
+  display: flex;
+  height: 50%;
+  font-size: 20px;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+}
+
+.day-container {
+  align-self: start;
+  margin-left: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  letter-spacing: 3px;
+  font-weight: bold;
+  font-size: 18px;
+  width: 15%;
+  box-shadow: 15.3px 15.7px 10.3px -1px rgba(0, 0, 0, 0.13),
+    98px 100px 138px -1px rgba(0, 0, 0, 0.26);
+  padding: 2% 3%;
+  border-radius: 10px;
+  background-color: #52ff4c;
+}
+
+.date-container {
+  display: flex;
+  margin-bottom: 1%;
+}
+
+.clock-container {
+  display: flex;
+}
+
+/* Responsive */
+
+/* @media (min-width:1800px){
+  .app-container {
+    width: 90%;
+    height: 75vh; 
+  }
+}
+
+@media (max-width: 1200px){
+  .app-container {
+    width: 90%;
+    height: 61vh;  
+  }
+}
+
+@media (max-width:900px){
+  .app-container {
+    width: 90%;
+    height: 50vh;
+  }
+}
+
+@media (max-width:600px) { 
+  .app-container {
+    width: 90%;
+    height: 40vh;  
+  }
+} */
+
+/* Responsive */
+
+@media screen and (min-width: 112.5rem) {
+  .app-container {
+    width: 60%;
+    height: 65vh;
+  }
+}
+
+@media screen and (max-width: 75rem) {
+  .app-container {
+    width: 95%;
+    height: 60vh;
+  }
+}
+
+@media screen and (max-width: 56.25rem) {
+  .app-container {
+    width: 95%;
+    height: 43vh;
+    margin: 10% 0%;
+  }
+
+  .infos {
+    font-size: 16px;
+  }
+
+  .weather-data {
+    font-size: 14px;
+  }
+
+  .day-container {
+    font-size: 14px;
+  }
+
+  .input-field {
+    font-size: 16px;
+  }
+
+  .submit-button {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 37.5rem) {
+  body {
+    justify-content: flex-start;
+  }
+
+  .app-container {
+    width: 95%;
+    height: 40vh;
+  }
+
+  .infos {
+    font-size: 12px;
+    width: 50%;
+    flex-wrap: wrap;
+  }
+
+  .weather-data {
+    font-size: 8px;
+    flex-wrap: wrap;
+  }
+
+  .day-container {
+    font-size: 10px;
+    width: 20%;
+  }
+
+  .input-field {
+    font-size: 11px;
+    box-shadow: 7px 10px 15px rgba(0, 0, 0, 0.27);
+  }
+
+  .submit-button {
+    font-size: 11px;
+  }
+
+  .form-container {
+    margin-top: 1%;
+  }
+
+  .app__text-head {
+    font-size: 20px;
+  }
 }
