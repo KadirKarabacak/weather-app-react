@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import "./index.css";
+import { useWeatherData } from "./useWeatherData";
 
-const KEY = "b85ba958f57100940d2bf7395ad5ad45";
+// const KEY = "b85ba958f57100940d2bf7395ad5ad45";
 
 const options = [
   "Istanbul",
@@ -14,103 +15,20 @@ const options = [
 ];
 
 export default function App() {
-  const [position, setPosition] = useState({});
-  const [weatherData, setWeatherData] = useState({});
+  // const [position, setPosition] = useState({});
   const [inputValue, setInputValue] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  // const [weatherData, setWeatherData] = useState({});
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState("");
   const [select, setSelect] = useState("");
 
-  // Get "Location" data
-  useEffect(function () {
-    function getPosition() {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const latitude = pos.coords.latitude;
-          const longitude = pos.coords.longitude;
-
-          setPosition({ latitude, longitude });
-        },
-        () => {
-          setError("Can't get your location");
-        }
-      );
-    }
-    getPosition();
-  }, []);
-
-  // Use "Location" data with API
-  useEffect(
-    function () {
-      // Cancel previous requests
-      const controller = new AbortController();
-      async function getJsonLocation() {
-        try {
-          setIsLoading(true);
-          const { latitude, longitude } = position;
-
-          const res = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${KEY}`,
-            { signal: controller.signal }
-          );
-          const data = await res.json();
-
-          if (!res.ok) throw new Error("Something went wrong");
-
-          if (data) setWeatherData(data);
-          setIsLoading(false);
-        } catch (err) {
-          // Ignore abort error
-          if (err.name !== "AbortError") setError(err.message);
-          setIsLoading(false);
-        }
-      }
-      getJsonLocation();
-
-      return function () {
-        // Cancel previous requests
-        controller.abort();
-      };
-    },
-    [position]
-  );
-
-  useEffect(
-    function () {
-      const controller = new AbortController();
-      async function getJsonSearch() {
-        try {
-          if (!inputValue) return;
-          setIsLoading(true);
-
-          // Kondisyonel olarak inputa yada selecte göre bilgi getir.
-          const res = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?q=${inputValue}&appid=${KEY}`,
-            { signal: controller.signal }
-          );
-          const data = await res.json();
-          setWeatherData(data);
-          setIsLoading(false);
-        } catch (err) {
-          if (err.name !== "AbortError")
-            setError("Can't find this city. Try Another");
-          setIsLoading(false);
-        }
-      }
-      getJsonSearch();
-
-      return function () {
-        // Cancel previous requests
-        controller.abort();
-      };
-    },
-    [inputValue]
-  );
+  //! Custom hook which takes weather data based location and search.
+  const { weatherData, isLoading } = useWeatherData(inputValue);
 
   return (
     <div className="app-container">
       <Date />
-      <Header isLoading={isLoading} error={error} />
+      <Header />
       <Form
         select={select}
         setSelect={setSelect}
@@ -122,10 +40,10 @@ export default function App() {
   );
 }
 
-function Header({ error }) {
+function Header() {
   return (
     <div className="app__text">
-      <h1 className="app__text-head">{error ? error : "⛅Weather - App"}</h1>
+      <h1 className="app__text-head">⛅Weather - App</h1>
     </div>
   );
 }
@@ -150,7 +68,7 @@ function Form({ inputValue, setInputValue, select, setSelect }) {
 }
 
 function WeatherContainer({ weatherData, isLoading }) {
-  if (!weatherData) return;
+  // console.log(weatherData);
   // Headers
   const data = ["City", "Country", "Temperature", "Description", "Humidity"];
   // Infos
@@ -199,15 +117,13 @@ function WeatherInfo({ children }) {
 }
 
 function Date() {
-  // const [currentDate, setCurrentDate] = useState(new Date());
-
   return (
     <div className="day-container">
       <div className="date-container">
         <div className="date day"></div>
       </div>
       <div className="clock-container">
-        <div className="clock time">22:55:46</div>
+        <div className="clock time"></div>
       </div>
     </div>
   );

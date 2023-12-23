@@ -113,17 +113,6 @@ select:focus {
   justify-content: space-evenly;
   border-right: 2px solid #10101091;
 }
-/* 
-.infos {
-  width: 20%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  padding: 4% 0%;
-  font-size: 25px;
-  color: white;
-} */
 
 .headers {
   display: flex;
@@ -207,89 +196,3 @@ select:focus {
 } */
 
 /* Responsive */
-
-@media screen and (min-width: 112.5rem) {
-  .app-container {
-    width: 60%;
-    height: 65vh;
-  }
-}
-
-@media screen and (max-width: 75rem) {
-  .app-container {
-    width: 95%;
-    height: 60vh;
-  }
-}
-
-@media screen and (max-width: 56.25rem) {
-  .app-container {
-    width: 95%;
-    height: 43vh;
-    margin: 10% 0%;
-  }
-
-  .infos {
-    font-size: 16px;
-  }
-
-  .weather-data {
-    font-size: 14px;
-  }
-
-  .day-container {
-    font-size: 14px;
-  }
-
-  .input-field {
-    font-size: 16px;
-  }
-
-  .submit-button {
-    font-size: 16px;
-  }
-}
-
-@media screen and (max-width: 37.5rem) {
-  body {
-    justify-content: flex-start;
-  }
-
-  .app-container {
-    width: 95%;
-    height: 40vh;
-  }
-
-  .infos {
-    font-size: 12px;
-    width: 50%;
-    flex-wrap: wrap;
-  }
-
-  .weather-data {
-    font-size: 8px;
-    flex-wrap: wrap;
-  }
-
-  .day-container {
-    font-size: 10px;
-    width: 20%;
-  }
-
-  .input-field {
-    font-size: 11px;
-    box-shadow: 7px 10px 15px rgba(0, 0, 0, 0.27);
-  }
-
-  .submit-button {
-    font-size: 11px;
-  }
-
-  .form-container {
-    margin-top: 1%;
-  }
-
-  .app__text-head {
-    font-size: 20px;
-  }
-}
