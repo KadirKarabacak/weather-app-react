@@ -6,6 +6,10 @@
   font-family: "Exo 2", sans-serif;
 }
 
+html {
+  font-size: 62.5%;
+}
+
 body {
   height: 100vh;
   display: flex;
@@ -14,7 +18,11 @@ body {
 
 h1 {
   font-size: 4rem;
-  background-image: linear-gradient(to right, #7ed56f, #b2fca5);
+  background-image: linear-gradient(
+    to right,
+    beige,
+    rgba(245, 245, 220, 0.562)
+  );
   background-clip: text;
   -webkit-background-clip: text; /* Webkit tarayıcıları için gerekli */
   color: transparent;
@@ -44,7 +52,14 @@ select:focus {
     12.1px 19px 11.9px -3px rgba(0, 0, 0, 0.056),
     24.8px 39.1px 24.5px -3px rgba(0, 0, 0, 0.069),
     68px 107px 67px -3px rgba(0, 0, 0, 0.1);
-  background-color: rgb(14, 151, 89);
+  background-image: linear-gradient(
+    to right bottom,
+    #a7c7e7,
+    #86a5ca,
+    #6884ad,
+    #4b6490,
+    #304674
+  );
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -68,29 +83,13 @@ select:focus {
   font-size: 20px;
   transition: 0.3s;
   box-shadow: 2px 4px 25px rgba(0, 0, 0, 0.27);
+  opacity: 0.8;
 }
 
 .input-field:focus {
   outline: none;
   box-shadow: 5px 8px 14px rgba(0, 0, 0, 0.27);
-}
-
-.submit-button {
-  padding: 10px 15px;
-  width: 30%;
-  background-color: #52ff4c;
-  color: #101010;
-  border: none;
-  cursor: pointer;
-  border-radius: 10px;
-  transition: 0.3s;
-  font-size: 20px;
-  box-shadow: 0px 6px 17px rgba(0, 0, 0, 0.27);
-}
-
-.submit-button:hover {
-  background-color: #101010;
-  color: white;
+  opacity: 1;
 }
 
 .weather-container {
@@ -99,7 +98,7 @@ select:focus {
   height: 8rem;
   width: 100%;
   display: flex;
-  background-color: #55c57a;
+  background-color: #87b2dd;
   box-shadow: 0px 6px 17px rgba(0, 0, 0, 0.27);
 }
 
@@ -111,7 +110,6 @@ select:focus {
   align-items: center;
   text-align: center;
   justify-content: space-evenly;
-  border-right: 2px solid #10101091;
 }
 
 .headers {
@@ -120,7 +118,7 @@ select:focus {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  color: #000000;
+  color: #000000c7;
   font-weight: bold;
   padding-bottom: 6%;
   justify-content: center;
@@ -133,7 +131,7 @@ select:focus {
   font-size: 20px;
   flex-direction: column;
   align-items: center;
-  color: white;
+  color: beige;
   font-weight: bold;
 }
 
@@ -153,7 +151,7 @@ select:focus {
     98px 100px 138px -1px rgba(0, 0, 0, 0.26);
   padding: 2% 3%;
   border-radius: 10px;
-  background-color: #52ff4c;
+  background-color: beige;
 }
 
 .date-container {
@@ -196,3 +194,40 @@ select:focus {
 } */
 
 /* Responsive */
+
+.fiveDayContainer {
+  justify-content: space-between;
+  align-items: center;
+  height: 8rem;
+  width: 100%;
+  display: flex;
+  background-color: #87b2dd;
+  margin-top: 3rem;
+}
+
+.oneDayContainers {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: space-evenly;
+  border-right: 1px solid grey;
+  transition: all 0.3s;
+}
+
+.oneDayContainers:hover {
+  background-color: #304674;
+  color: beige;
+  cursor: pointer;
+}
+
+.fiveDayDates {
+}
+
+.fiveDayTimes {
+}
+
+.fiveDayTemp {
+}

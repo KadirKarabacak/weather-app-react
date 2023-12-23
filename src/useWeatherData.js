@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 
 const KEY = "b85ba958f57100940d2bf7395ad5ad45";
 
-export function useWeatherData(inputValue) {
+export function useWeatherData(inputValue, select) {
   const [weatherData, setWeatherData] = useState(null);
+  const [fiveDay, setFiveDay] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Controls Input and Select menu API calls
   useEffect(
     function () {
       const controller = new AbortController();
@@ -21,7 +23,11 @@ export function useWeatherData(inputValue) {
 
           if (!res.ok) throw new Error("Something went wrong..");
 
-          if (inputValue.length > 2) setWeatherData(data);
+          // Select varken bile inputa yazı girilirse onu çağır, Aynı şekilde tersi içinde geçerli
+          if (inputValue) {
+            setWeatherData(data);
+          }
+          if (select) setWeatherData(data);
 
           setIsLoading(false);
           setError("");
@@ -36,11 +42,16 @@ export function useWeatherData(inputValue) {
         fetchData(searchUrl);
       }
 
+      if (select) {
+        const selectUrl = `https://api.openweathermap.org/data/2.5/weather?q=${select}&appid=${KEY}`;
+        fetchData(selectUrl);
+      }
+
       return function () {
         controller.abort();
       };
     },
-    [inputValue]
+    [inputValue, select]
   );
 
   // Position Based Data
@@ -79,7 +90,6 @@ export function useWeatherData(inputValue) {
         }
       );
     };
-
     getPosition();
 
     return function () {
@@ -87,5 +97,40 @@ export function useWeatherData(inputValue) {
     };
   }, []); // Boş bağımlılık dizisi sayesinde sadece sayfa mount olduğunda çalışır.
 
-  return { weatherData, isLoading, error, setError };
+  // Handle 5 Day Forecast
+  useEffect(
+    function () {
+      const controller = new AbortController();
+
+      const fetchData = async function () {
+        try {
+          setError("");
+          setIsLoading(true);
+
+          const res = await fetch(
+            `https://api.openweathermap.org/data/2.5/forecast?q=${inputValue}&appid=${KEY}`,
+            { signal: controller.signal }
+          );
+          const data = await res.json();
+          setFiveDay(data);
+
+          if (!res.ok) throw new Error("Something went wrong..");
+
+          setIsLoading(false);
+          setError("");
+        } catch (err) {
+          if (err.name !== "AbortError") setError(err.message);
+          setIsLoading(false);
+        }
+      };
+      fetchData();
+
+      return function () {
+        controller.abort();
+      };
+    },
+    [inputValue]
+  );
+
+  return { weatherData, isLoading, fiveDay };
 }

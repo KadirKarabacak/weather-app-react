@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
-import "./index.css";
+import { useEffect, useRef, useState } from "react";
 import { useWeatherData } from "./useWeatherData";
-
-// const KEY = "b85ba958f57100940d2bf7395ad5ad45";
+import "./index.css";
 
 const options = [
+  "",
   "Istanbul",
   "Ankara",
   "İzmir",
@@ -12,22 +11,24 @@ const options = [
   "Bursa",
   "Denizli",
   "Konya",
+  "London",
+  "Tokyo",
+  "Paris",
 ];
 
 export default function App() {
-  // const [position, setPosition] = useState({});
   const [inputValue, setInputValue] = useState("");
-  // const [weatherData, setWeatherData] = useState({});
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState("");
   const [select, setSelect] = useState("");
 
   //! Custom hook which takes weather data based location and search.
-  const { weatherData, isLoading } = useWeatherData(inputValue);
+  const { weatherData, isLoading, fiveDay } = useWeatherData(
+    inputValue,
+    select,
+    setSelect
+  );
 
   return (
     <div className="app-container">
-      <Date />
       <Header />
       <Form
         select={select}
@@ -36,6 +37,7 @@ export default function App() {
         setInputValue={setInputValue}
       />
       <WeatherContainer isLoading={isLoading} weatherData={weatherData} />
+      <NextDaysWeather fiveDay={fiveDay} />
     </div>
   );
 }
@@ -49,14 +51,39 @@ function Header() {
 }
 
 function Form({ inputValue, setInputValue, select, setSelect }) {
+  const inputEl = useRef(null);
+
+  // Enter key listener
+  useEffect(
+    function () {
+      function handleEnterEvent(e) {
+        // Zaten aktifse yeniden set etme.
+        if (document.activeElement === inputEl.current) return;
+
+        if (e.code === "Enter") {
+          inputEl.current.focus();
+          setInputValue("");
+        }
+      }
+      document.addEventListener("keydown", handleEnterEvent);
+
+      // cleanup function
+      return function () {
+        document.removeEventListener("keydown", handleEnterEvent);
+      };
+    },
+    [setInputValue]
+  );
+
   return (
     <form onSubmit={(e) => e.preventDefault()} className="form-container">
       <input
         type="text"
-        className="input-field"
+        className="input-field "
         placeholder="Search for a city"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
+        ref={inputEl}
       />
       <select value={select} onChange={(e) => setSelect(e.target.value)}>
         {options.map((option) => {
@@ -68,7 +95,6 @@ function Form({ inputValue, setInputValue, select, setSelect }) {
 }
 
 function WeatherContainer({ weatherData, isLoading }) {
-  // console.log(weatherData);
   // Headers
   const data = ["City", "Country", "Temperature", "Description", "Humidity"];
   // Infos
@@ -116,15 +142,57 @@ function WeatherInfo({ children }) {
   return <div className="weather-data">{children}</div>;
 }
 
-function Date() {
+// 5 Day Data
+function NextDaysWeather({ fiveDay }) {
+  if (!fiveDay) return;
+
+  const { list } = fiveDay;
+
+  // oneDay = 8
+  const oneDay = list?.length / 5;
+  const fiveDayResults = Array.from(
+    { length: list?.length / oneDay },
+    (_, index) => list.slice(index * oneDay, (index + 1) * oneDay)
+  );
+  console.log(fiveDayResults);
+
   return (
-    <div className="day-container">
-      <div className="date-container">
-        <div className="date day"></div>
+    <div className="fiveDayContainer">
+      {fiveDayResults.map((day, i) => (
+        <div className="oneDayContainers">
+          <h3 className="fiveDayDates">
+            {day[i].dt_txt.slice(0, 10)} / &nbsp;
+            <span>{day[i].dt_txt.slice(11, -3)}</span>
+          </h3>
+          <p className="fiveDayTemp">
+            {Math.round(day[i].main.temp - 273.15)} °C
+          </p>
+        </div>
+      ))}
+      {/* <div className="oneDayContainers">
+        <h3 className="fiveDayDates">
+          2023-12-24 / <span className="fiveDayTimes">00:00:00</span>
+        </h3>
+        <p className="fiveDayTemp">7 °C</p>
       </div>
-      <div className="clock-container">
-        <div className="clock time"></div>
+      <div className="oneDayContainers">
+        <h3 className="fiveDayDates">
+          2023-12-24 / <span className="fiveDayTimes">00:00:00</span>
+        </h3>
+        <p className="fiveDayTemp">7 °C</p>
       </div>
+      <div className="oneDayContainers">
+        <h3 className="fiveDayDates">
+          2023-12-24 / <span className="fiveDayTimes">00:00:00</span>
+        </h3>
+        <p className="fiveDayTemp">7 °C</p>
+      </div>
+      <div className="oneDayContainers">
+        <h3 className="fiveDayDates">
+          2023-12-24 / <span className="fiveDayTimes">00:00:00</span>
+        </h3>
+        <p className="fiveDayTemp">7 °C</p>
+      </div> */}
     </div>
   );
 }
